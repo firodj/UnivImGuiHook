@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "globals.hpp"
+#include "console.hpp"
 
 namespace globals {
     // Handle to our DLL module
@@ -10,17 +12,49 @@ namespace globals {
     // Key to open/close the ImGui menu (INSERT by default)
     int openMenuKey = VK_INSERT;
     // Preferred backend to hook (None = auto fallback -> Not recommanded, specify your engine here)
-    Backend preferredBackend = Backend::None;
+    Backend preferredBackend = Backend::DX9;
     // Flag controlling runtime debug logging
-    bool enableDebugLog = false;
+    bool enableDebugLog = true;
     // Currently active rendering backend
     Backend activeBackend = Backend::None; // DO NOT MODIFY THIS LINE.
-}
 
-namespace globals {
+    WNDPROC sOriginalWndProc = nullptr;
+
     void SetDebugLogging(bool enable) {
         enableDebugLog = enable;
     }
+
+    int refForDisableFALog = 0;
+
+    void IncRefForDisableFileAccessLog() { refForDisableFALog++; }
+    void DecRefForDisableFileAccessLog() { refForDisableFALog--; }
+    bool HasRefForDisableFileAccessLog() { return refForDisableFALog > 0; }
+
+    void (*g_pfnCustomInit)(void) = nullptr;
+    void SetCustomInit(void (*pfnCustomInit)(void)) {
+        g_pfnCustomInit = pfnCustomInit;
+    }
+
+    void CallCustomInit(void) {
+        if (g_pfnCustomInit) {
+            g_pfnCustomInit();
+        }
+    }
+
+    void (*g_pfnCustomRender)(void) = nullptr;
+    void SetCustomRender(void (*pfnCustomRender)(void)) {
+        g_pfnCustomRender = pfnCustomRender;
+    }
+
+    void CallCustomRender(void) {
+        if (g_pfnCustomRender) {
+            g_pfnCustomRender();
+        }
+    }
+
+    bool enableSimpleMenu = false;
+
+    bool enableHookReadFile = false;
 }
 
 // Log initial global values for debugging

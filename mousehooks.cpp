@@ -1,5 +1,8 @@
 #include "stdafx.h"
 
+#include "console.hpp"
+#include "menu.hpp"
+
 using SetCursorPos_t = BOOL (WINAPI*)(int,int);
 static SetCursorPos_t oSetCursorPos = nullptr;
 BOOL WINAPI hookSetCursorPos(int x,int y) {

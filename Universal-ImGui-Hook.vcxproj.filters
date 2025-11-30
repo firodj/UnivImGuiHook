@@ -16,6 +16,15 @@
     <Filter Include="Sources Files\imgui">
       <UniqueIdentifier>{962e4318-7c4d-4132-ab8f-78399f1e978e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\kernel32">
+      <UniqueIdentifier>{5d4276af-0e43-4103-bdae-9977dc13bda2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources Files\imgui\backends">
+      <UniqueIdentifier>{1998bb7f-20ed-446d-8dff-bbbf094606aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources Files\di8wrap">
+      <UniqueIdentifier>{f2a69ec5-96a6-41d1-b72d-ff7533e29102}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -28,12 +37,6 @@
       <Filter>Sources Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_draw.cpp">
-      <Filter>Sources Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_dx12.cpp">
-      <Filter>Sources Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_win32.cpp">
       <Filter>Sources Files\imgui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_tables.cpp">
@@ -69,20 +72,50 @@
     <ClCompile Include="globals.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_dx9.cpp">
-      <Filter>Sources Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_dx10.cpp">
-      <Filter>Sources Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_vulkan.cpp">
-      <Filter>Sources Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_dx11.cpp">
-      <Filter>Sources Files\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="vulkanhook.cpp">
       <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="console.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel32\OutputDebugString.cpp">
+      <Filter>Sources Files\kernel32</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel32\ReadFile.cpp">
+      <Filter>Sources Files\kernel32</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel32\CreateFile.cpp">
+      <Filter>Sources Files\kernel32</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel32\LoadLibrary.cpp">
+      <Filter>Sources Files\kernel32</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel32\SetFilePointer.cpp">
+      <Filter>Sources Files\kernel32</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_dx9.cpp">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_dx10.cpp">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_dx11.cpp">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_dx12.cpp">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_vulkan.cpp">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_win32.cpp">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="di8wrap\di_wrap.cpp">
+      <Filter>Sources Files\di8wrap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,12 +123,6 @@
       <Filter>Sources Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui.h">
-      <Filter>Sources Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_dx12.h">
-      <Filter>Sources Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_win32.h">
       <Filter>Sources Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui_internal.h">
@@ -116,16 +143,46 @@
     <ClInclude Include="namespaces.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_dx9.h">
-      <Filter>Sources Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_dx10.h">
-      <Filter>Sources Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_vulkan.h">
-      <Filter>Sources Files\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imgui_impl_dx11.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util.hpp">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="console.hpp">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.hpp">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.hpp">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel32\kernel32hook.hpp">
+      <Filter>Sources Files\kernel32</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\backends\imgui_impl_dx9.h">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\backends\imgui_impl_dx10.h">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\backends\imgui_impl_dx11.h">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\backends\imgui_impl_dx12.h">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\backends\imgui_impl_vulkan.h">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\backends\imgui_impl_win32.h">
+      <Filter>Sources Files\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="di8wrap\di_wrap.hpp">
+      <Filter>Sources Files\di8wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="univhook.hpp">
       <Filter>Headers Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -139,6 +196,7 @@
     <None Include="imgui\.gitignore">
       <Filter>Sources Files\imgui</Filter>
     </None>
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="imgui\LICENSE.txt">

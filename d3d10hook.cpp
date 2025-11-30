@@ -1,4 +1,7 @@
 #include "stdafx.h"
+#include "console.hpp"
+#include "globals.hpp"
+#include "menu.hpp"
 
 namespace hooks_dx10 {
     using Microsoft::WRL::ComPtr;
@@ -75,7 +78,7 @@ namespace hooks_dx10 {
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
             if (menu::isOpen)
-                menu::Init();
+                menu::Render();
             ImGui::EndFrame();
             ImGui::Render();
             gDevice->OMSetRenderTargets(1, &gRTV, nullptr);

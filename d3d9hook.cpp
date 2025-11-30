@@ -1,4 +1,7 @@
 #include "stdafx.h"
+#include "globals.hpp"
+#include "console.hpp"
+#include "menu.hpp"
 
 namespace d3d9hook {
     EndSceneFn oEndScene = nullptr;
@@ -11,21 +14,19 @@ namespace d3d9hook {
         if (!gInitialized) {
             D3DDEVICE_CREATION_PARAMETERS params{};
             if (SUCCEEDED(device->GetCreationParameters(&params))) {
-                ImGui::CreateContext();
-                ImGuiIO& io = ImGui::GetIO(); (void)io;
-                io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-                ImGui::StyleColorsDark();
-                ImGui_ImplWin32_Init(params.hFocusWindow);
+				menu::Init(params.hFocusWindow);
                 ImGui_ImplDX9_Init(device);
                 inputhook::Init(params.hFocusWindow);
                 gInitialized = true;
-                DebugLog("[d3d9hook] ImGui initialized on EndScene.\\n");
+                DebugLog("[d3d9hook] ImGui initialized on EndScene.\n");
+                globals::activeBackend = globals::Backend::DX9;
+                console::Disable();
             }
         }
 
         if (GetAsyncKeyState(globals::openMenuKey) & 1) {
             menu::isOpen = !menu::isOpen;
-            DebugLog("[d3d9hook] Toggle menu: %d\\n", menu::isOpen);
+            //DebugLog("[d3d9hook] Toggle menu: %d\n", menu::isOpen);
         }
 
         if (GetAsyncKeyState(globals::uninjectKey) & 1) {
@@ -37,9 +38,9 @@ namespace d3d9hook {
             ImGui_ImplDX9_NewFrame();
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
-            if (menu::isOpen) {
-                menu::Init();
-            }
+            //if (menu::isOpen) {
+                menu::Render();
+            //}
             ImGui::EndFrame();
             ImGui::Render();
             ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
@@ -60,10 +61,10 @@ namespace d3d9hook {
     }
 
     void Init() {
-        DebugLog("[d3d9hook] Init starting\\n");
+        DebugLog("[d3d9hook] Init starting\n");
         IDirect3D9* d3d = Direct3DCreate9(D3D_SDK_VERSION);
         if (!d3d) {
-            DebugLog("[d3d9hook] Direct3DCreate9 failed\\n");
+            DebugLog("[d3d9hook] Direct3DCreate9 failed\n");
             return;
         }
 
@@ -90,10 +91,10 @@ namespace d3d9hook {
             MH_CreateHook(pResetTarget,   reinterpret_cast<void*>(hookReset),    reinterpret_cast<void**>(&oReset));
             MH_EnableHook(pEndSceneTarget);
             MH_EnableHook(pResetTarget);
-            DebugLog("[d3d9hook] Hooks placed EndScene@%p Reset@%p\\n", pEndSceneTarget, pResetTarget);
+            DebugLog("[d3d9hook] Hooks placed EndScene@%p Reset@%p\n", pEndSceneTarget, pResetTarget);
             device->Release();
         } else {
-            DebugLog("[d3d9hook] CreateDevice failed: 0x%08X\\n", hr);
+            DebugLog("[d3d9hook] CreateDevice failed: 0x%08X\n", hr);
         }
 
         DestroyWindow(hwnd);
@@ -102,7 +103,7 @@ namespace d3d9hook {
     }
 
     void release() {
-        DebugLog("[d3d9hook] Releasing resources\\n");
+        DebugLog("[d3d9hook] Releasing resources\n");
         if (globals::mainWindow) {
             inputhook::Remove(globals::mainWindow);
         }

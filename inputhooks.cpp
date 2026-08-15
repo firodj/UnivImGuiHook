@@ -1,10 +1,15 @@
 #include "stdafx.h"
 
+#include "console.hpp"
+#include "globals.hpp"
+#include "menu.hpp"
+#include "di8wrap/di_wrap.hpp"
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace inputhook {
-    static WNDPROC sOriginalWndProc = nullptr;
-
+    auto &sOriginalWndProc = globals::sOriginalWndProc;
+   
     // Cache the window handle to allow later removal of the hook
     // (stored in globals::mainWindow for cross-namespace access)
 
@@ -46,6 +51,14 @@ namespace inputhook {
 
     LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
+        if (uMsg == WM_DESTROY) {
+            HANDLE hHandle = CreateThread(NULL, 0, ReinitializeGraphicalHooks, hwnd, 0, NULL);
+            if (hHandle != NULL)
+                CloseHandle(hHandle);
+        }
+
+        
+
         if (menu::isOpen)
         {
             ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
@@ -66,7 +79,11 @@ namespace inputhook {
                 }
             }
         }
+        else {
+            WrapperSystem::WndProcDo(hwnd, uMsg, wParam, lParam);
+        }
 
         return CallWindowProc(sOriginalWndProc, hwnd, uMsg, wParam, lParam);
     }
+
 }

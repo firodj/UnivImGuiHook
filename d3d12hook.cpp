@@ -1,8 +1,11 @@
 #include "stdafx.h"
-
-namespace hooks { void Remove(); }
+#include "console.hpp"
+#include "globals.hpp"
+#include "menu.hpp"
 
 namespace d3d12hook {
+
+    void Remove();
     PresentD3D12            oPresentD3D12 = nullptr;
     Present1Fn              oPresent1D3D12 = nullptr;
     ExecuteCommandListsFn   oExecuteCommandListsD3D12 = nullptr;
@@ -149,7 +152,7 @@ namespace d3d12hook {
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
 
-            if (menu::isOpen) menu::Init();
+            if (menu::isOpen) menu::Render();
 
             UINT frameIdx = pSwapChain->GetCurrentBackBufferIndex();
             FrameContext& ctx = gFrameContexts[frameIdx];
@@ -366,7 +369,7 @@ namespace d3d12hook {
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
 
-            if (menu::isOpen) menu::Init();
+            if (menu::isOpen) menu::Render();
 
             UINT frameIdx = pSwapChain->GetCurrentBackBufferIndex();
             FrameContext& ctx = gFrameContexts[frameIdx];
@@ -610,7 +613,7 @@ namespace d3d12hook {
         delete[] gFrameContexts;
 
         // Disable hooks installed for D3D12
-        hooks::Remove();
+        Remove();
     }
 
     bool IsInitialized()

@@ -1,31 +1,5 @@
 #pragma once
 
-namespace globals {
-        extern HMODULE mainModule;
-        extern HWND mainWindow;
-        extern int uninjectKey;
-        extern int openMenuKey;
-
-        // Rendering backend currently in use
-        enum class Backend {
-                None,
-                DX9,
-                DX10,
-                DX11,
-                DX12,
-                Vulkan
-        };
-        extern Backend activeBackend;
-        // Preferred backend to hook. None means auto with fallback order
-        extern Backend preferredBackend;
-        extern bool enableDebugLog;
-        void SetDebugLogging(bool enable);
-}
-
-namespace hooks {
-        extern void Init();
-}
-
 namespace inputhook {
         extern void Init(HWND hWindow);
         extern void Remove(HWND hWindow);
@@ -38,6 +12,8 @@ namespace mousehooks {
 }
 
 namespace d3d12hook {
+        extern void Init();
+
         typedef HRESULT(STDMETHODCALLTYPE* PresentD3D12)(
                 IDXGISwapChain3 * pSwapChain, UINT SyncInterval, UINT Flags);
         typedef HRESULT(STDMETHODCALLTYPE* Present1Fn)(
@@ -141,6 +117,7 @@ namespace hooks_dx11 {
     bool IsInitialized();
 }
 
+#ifdef ENABLE_BACKEND_VULKAN
 namespace hooks_vk {
     extern PFN_vkCreateInstance        oCreateInstance;
     extern PFN_vkCreateDevice          oCreateDevice;
@@ -160,11 +137,8 @@ namespace hooks_vk {
     void release();
     bool IsInitialized();
 }
+#endif
 
-namespace menu {
-        extern bool isOpen;
-        extern void Init();
-}
 
 // Helper to unload the DLL and remove all hooks
 void Uninject();

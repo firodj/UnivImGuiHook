@@ -1,4 +1,7 @@
 #include "stdafx.h"
+#include "globals.hpp"
+#include "console.hpp"
+#include "menu.hpp"
 #include <unordered_map>
 #include <Psapi.h>
 #include <vulkan/vulkan_win32.h>
@@ -38,8 +41,7 @@ namespace hooks_vk {
     };
     static std::unordered_map<VkDevice, DeviceInfo> gDeviceMap;
 
-    static bool IsPlausibleDevice(VkDevice dev)
-    {
+    static bool isPlausibleDevice(VkDevice dev) {
         if (dev == VK_NULL_HANDLE)
             return false;
         if (!gDeviceMap.empty() && gDeviceMap.find(dev) == gDeviceMap.end())
@@ -61,19 +63,28 @@ namespace hooks_vk {
                 DebugLog("[vulkanhook] device %p rejected (stub dispatch)\n", dev);
                 return false;
             }
-            __try
-            {
-                VkQueue q = VK_NULL_HANDLE;
-                p(dev, 0, 0, &q);
-                DebugLog("[vulkanhook] vkGetDeviceQueue call succeeded for %p (queue=%p)\n", dev, q);
-            }
-            __except (EXCEPTION_EXECUTE_HANDLER)
-            {
-                DebugLog("[vulkanhook] vkGetDeviceQueue call failed for %p\n", dev);
-                return false;
-            }
+            VkQueue q = VK_NULL_HANDLE;
+            p(dev, 0, 0, &q);
+            DebugLog("[vulkanhook] vkGetDeviceQueue call succeeded for %p (queue=%p)\n", dev, q);
         }
         return true;
+    }
+
+    static bool IsPlausibleDevice(VkDevice dev)
+    {
+        __try
+        {
+
+            return isPlausibleDevice(dev);
+           
+        }
+        __except (EXCEPTION_EXECUTE_HANDLER)
+        {
+            DebugLog("[vulkanhook] vkGetDeviceQueue call failed for %p\n", dev);
+            
+        }
+        
+        return false;
     }
 
     VkResult VKAPI_PTR hook_vkQueuePresentKHR(VkQueue queue, const VkPresentInfoKHR* pPresentInfo);
@@ -615,7 +626,7 @@ namespace hooks_vk {
         static bool logged = false;
         if (!logged)
         {
-            DebugLog("[vulkanhook] vkQueuePresentKHR intercepted\\n");
+            DebugLog("[vulkanhook] vkQueuePresentKHR intercepted\n");
             logged = true;
         }
         if (gDevice == VK_NULL_HANDLE || gQueue == VK_NULL_HANDLE)
@@ -923,7 +934,7 @@ namespace hooks_vk {
                 ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
             if (menu::isOpen)
-                menu::Init();
+                menu::Render();
             ImGui::EndFrame();
             ImGui::Render();
 

@@ -1,8 +1,9 @@
 #include "stdafx.h"
+#include "console.hpp"
 
 using Microsoft::WRL::ComPtr;
 
-namespace hooks {
+namespace d3d12hook {
     // VTable indices derived from the official DirectX interface order.
     // These values are stable across Windows versions and SDKs.
     constexpr size_t kPresentIndex  = 8;            // IDXGISwapChain::Present

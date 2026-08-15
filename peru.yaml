@@ -1,0 +1,7 @@
+imports:
+    imgui: imgui/  # This is where we want peru to put the module.
+
+git module imgui:
+    url: https://github.com/ocornut/imgui.git
+    rev: docking
+
